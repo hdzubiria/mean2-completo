@@ -3,81 +3,83 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { GLOBAL} from '../services/global';
 import { UserService} from '../services/user.service';
+import { Album } from '../models/album';
+import { AlbumService } from '../services/album.service';
 import { UploadService } from '../services/upload.service';
-import { ArtistService } from '../services/artist.service';
 import { Artist } from '../models/artist';
 
-
 @Component({
-    selector: 'artist-edit',
-    templateUrl: '../views/artist-add.html',
-    providers: [UserService, ArtistService, UploadService]
+    selector: 'album-edit',
+    templateUrl: '../views/album-add.html',
+    providers: [UserService, AlbumService, UploadService]
 })
 
-export class ArtistEditComponent implements OnInit {
+export class AlbumEditComponent implements OnInit {
     public Title: string;
     public isEdit: boolean;
-    public artist: Artist;
+    public album: Album;
     public identity: any;
     public token: any;
     public url: string;
     public alertMessage: string;
     public filesToUpload: Array<File>;
 
+    
+
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private userService: UserService,
-        private artistService: ArtistService,
-        private uploadService: UploadService
+        private albumService: AlbumService,
+        private uploadService: UploadService,
     ) {
-        this.Title = 'Actualizar artista';
-        this.isEdit = true;
+        this.Title = 'Editar Álbum';
         this.identity = userService.getIdentity();
         this.token = userService.getToken();
         this.url = GLOBAL.url;
-        this.artist = new Artist('', '', '', '');
+        this.isEdit = true;
+        this.album = new Album('', '', '', 2019, '', '');
     }
 
-    ngOnInit() {
-        console.log('artist-edit.components.ts Cargado');
-
-        // cargar artistea en base a su id
-        this.getArtist();
+    ngOnInit(): void {
+        console.log('album-add.components.ts Cargado');
+        // Conseguir el album
+        this.getAlbum();
     }
 
     /**
      * onSubmit
      */
     public onSubmit() {
-        this.artistService.updateArtist(this.token, this.artist)
+        this.albumService.updateAlbum(this.token, this.album)
         .subscribe(
-            editedArtist => {
-                const artistStored: Artist = editedArtist;
-                if (!artistStored._id) {
-                    this.alertMessage = 'NO fue posible Actualizar el Artista';
+            albumtoUpdate => {
+                const albumUpdated: Album = albumtoUpdate;
+                if (!albumUpdated._id) {
+                    this.alertMessage = 'NO fue posible actualizar el Álbum';
                 } else {
-                    // Cargar Imagen si se ha seleccionado
+                     // Cargar Imagen si se ha seleccionado
                     if (this.filesToUpload) {
                         this.uploadService.makeFileRequest(
-                                `${this.url}upload-image-artist/${this.artist._id}`,
+                                `${this.url}upload-image-album/${this.album._id}`,
                                 [],
                                 this.filesToUpload,
                                 this.token,
                                 'image'
                         )
                         .then((result) => {
-                            this.artist.image = (result as any).image;
-                            const imagePath = this.url + 'get-image-artist/' + this.artist.image;
+                            this.album.image = (result as any).image;
+                            const imagePath = this.url + 'get-image-album/' + this.album.image;
                         });
                     }
-                    this.router.navigate(['/artista', this.artist._id]);
-                    this.alertMessage = 'Artista Actualizado Exitosamente';
+                    this.router.navigate(['/artista', (this.album.artist as Artist)._id]);
+                    this.alertMessage = 'Álbum actualizado Exitosamente';
                 }
             },
             erroresponse => {
-                console.log(erroresponse.error.message);
-                this.alertMessage = erroresponse.error.message;
+            console.log(erroresponse.error.message);
+            this.alertMessage = erroresponse.error.message;
             }
         );
     }
@@ -92,19 +94,16 @@ export class ArtistEditComponent implements OnInit {
     /**
      * getArtist
      */
-    public getArtist() {
-
+    private getAlbum() {
         this.route.params.forEach((param: Params) => {
-
             const id: string = param.id;
-
-            this.artistService.getArtist(this.token, id)
+            this.albumService.getAlbum(this.token, id)
             .subscribe(
-                artist => {
-                    if (!artist) {
+                album => {
+                    if (!album) {
                         this.router.navigate(['/']);
                     } else {
-                        this.artist = artist;
+                        this.album = album;
                     }
                 },
                 erroresponse => {
@@ -115,3 +114,4 @@ export class ArtistEditComponent implements OnInit {
         });
     }
 }
+

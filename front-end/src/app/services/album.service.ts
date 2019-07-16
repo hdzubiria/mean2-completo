@@ -31,11 +31,39 @@ export class AlbumService {
     }
 
     /**
+     * getAlbum
+     */
+    public getAlbum(token: string, id: string) {
+        this.addAuhtorzationHeader(token);
+        return this.http.get<Album>(`${this.url}album/${id}`, this.headers);
+    }
+
+    /**
+     * updateArtist
+     */
+    public updateAlbum(token: string , albumtoUpdate: Album) {
+        this.addAuhtorzationHeader(token);
+        return this.http.put<Album>(`${this.url}album/${albumtoUpdate._id}`, albumtoUpdate, this.headers);
+    }
+
+    /**
+     * deleteAlbum
+     */
+    public deleteAlbum(token: string, id: string) {
+        this.addAuhtorzationHeader(token);
+        return this.http.delete<Album>(`${this.url}album/${id}`, this.headers);
+    }
+
+    /**
      * getAlbums
      */
-    public getAlbums(token: string, artistId: string) {
+    public getAlbums(token: string, artistId: string = null) {
         this.addAuhtorzationHeader(token);
-        return this.http.get(`${this.url}albums/${artistId}`, this.headers);
+        if (artistId == null) {
+            return this.http.get <Album[]>(`${this.url}albums`, this.headers);
+        } else {
+            return this.http.get<Album[]>(`${this.url}albums/${artistId}`, this.headers);
+        }
     }
 
 

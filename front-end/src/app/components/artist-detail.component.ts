@@ -6,11 +6,13 @@ import { UserService} from '../services/user.service';
 import { UploadService } from '../services/upload.service';
 import { ArtistService } from '../services/artist.service';
 import { Artist } from '../models/artist';
+import { AlbumService } from '../services/album.service';
+import { Album } from '../models/album';
 
 @Component({
     selector: 'artist-detail',
     templateUrl: '../views/artist-detail.html',
-    providers: [UserService, ArtistService]
+    providers: [UserService, ArtistService, AlbumService]
 
 })
 
@@ -20,12 +22,15 @@ export class ArtistDetailComponent implements OnInit {
     public token: any;
     public url: string;
     public alertMessage: string;
+    public albums: Album[];
+    public confirmado: string;
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private userService: UserService,
-        private artistService: ArtistService
+        private artistService: ArtistService,
+        private albumService: AlbumService
     ) {
         this.identity = userService.getIdentity();
         this.token = userService.getToken();
@@ -55,7 +60,20 @@ export class ArtistDetailComponent implements OnInit {
                     } else {
                         this.artist = artist;
 
-                        // TODO: Cargar los Albumes del Artista
+                        this.albumService.getAlbums(this.token, artist._id)
+                        .subscribe(
+                            albumesRecibidos => {
+                                if (!albumesRecibidos) {
+                                    this.alertMessage = 'Este Artista No tiene Álbumes';
+                                } else {
+                                    this.albums = albumesRecibidos;
+                                }
+                            },
+                            erroresponse => {
+                                console.log(erroresponse.error.message);
+                                this.alertMessage = erroresponse.error.message;
+                            }
+                        );
 
 
                     }
@@ -67,5 +85,38 @@ export class ArtistDetailComponent implements OnInit {
             );
         });
     }
+
+    /**
+     * onDeleteConfirm
+     */
+    public onDeleteConfirm(id: string) {
+        this.confirmado = id;
+    }
+
+    /**
+     * onCancelDeleteAlbum
+     */
+    public onCancelDeleteAlbum() {
+        this.confirmado = null;
+    }
+
+    /**
+     * onDeleteArtist
+     */
+    public onDeleteAlbum(id: string) {
+        this.albumService.deleteAlbum(this.token, this.confirmado)
+        .subscribe(
+            deletedAlbum => {
+                if (!deletedAlbum._id) {
+                    console.log('ERROR: Álbum no Borrado');
+                }
+                this.getArtist();
+            },
+            erroresponse => {
+                console.log(erroresponse.error.message);
+            }
+        );
+    }
+
 
 }

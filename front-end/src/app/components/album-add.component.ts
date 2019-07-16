@@ -58,7 +58,7 @@ export class AlbumAddComponent implements OnInit {
                 } else {
                     this.alertMessage = 'Nuevo Álbum Creado Exitosamente';
                     this.album =  albumStored;
-                    // this.router.navigate(['/editar-artista', this.artist._id]);
+                    this.router.navigate(['/editar-album', this.album._id]);
             }
           },
           erroresponse => {

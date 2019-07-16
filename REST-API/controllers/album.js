@@ -24,7 +24,7 @@ function getAlbums(req, res) {
             if (!albums) {
                 res.status(404).send({ message: 'ERROR: No hay álbumes' });
             } else {
-                res.status(200).send({ albums });
+                res.status(200).send(albums);
             }
         }
     })
@@ -41,7 +41,7 @@ function getAlbum(req, res) {
             if (!album) {
                 res.status(404).send({ message: 'ERROR: El álbum no Existe' });
             } else {
-                res.status(200).send({ album });
+                res.status(200).send(album);
             }
         }
     })
@@ -81,7 +81,7 @@ function updateAlbum(req, res) {
             if (!updatedAlbum) {
                 res.status(404).send({ message: 'ERROR: El álbum no ha sido Actualizado' });
             } else {
-                res.status(200).send({ album: updatedAlbum });
+                res.status(200).send(updatedAlbum);
             }
         }
     })
@@ -105,7 +105,7 @@ function deleteAlbum(req, res) {
                         if (!songDeleted) {
                             res.status(404).send({ message: 'ERROR: Canción no ha sido Eliminada' });
                         } else {
-                            res.status(200).send({ album: deleteAlbum });
+                            res.status(200).send(deleteAlbum);
                         }
                     }
 
