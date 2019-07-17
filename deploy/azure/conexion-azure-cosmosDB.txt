@@ -1,0 +1,10 @@
+{
+  "primaryMasterKey": "qvmkZ3p2MqtBjRjsiM70kmcLQZMKlNuAi4vXfsVkq750Ze91Btn94PdyLjvRONe8sQHzMStfVSWs85g0y63nNA==",
+  "primaryReadonlyMasterKey": "3cbawVtGE1HnD919OWPEKP7nURXhHcGeuAgT1xvdA4OQn7NI3rgLrKnoYBK0aaAJHO0RSBNvnzCK4QeWuOWscA==",
+  "secondaryMasterKey": "UyT48aJuem6FED2d0wVz82pJAau80KkePm6snoH16wE8n48jC88A8nHw388RmnZBJnh3KswAqPzRWuZYwgp29Q==",
+  "secondaryReadonlyMasterKey": "MJShP8wRR9Zy0FqItHZciNbZWACF5HoM7npmGCD3WaemsAViPdKqWgFwlgjp2WvCYi0duxMfXML4pVBWu4fl2A=="
+}
+
+
+
+mongodb://cursomean2:qvmkZ3p2MqtBjRjsiM70kmcLQZMKlNuAi4vXfsVkq750Ze91Btn94PdyLjvRONe8sQHzMStfVSWs85g0y63nNA==@cursomean2.documents.azure.com:10250/mean?ssl=true&sslverifycertificate=false
