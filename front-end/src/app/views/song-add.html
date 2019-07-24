@@ -1,0 +1,49 @@
+<div class="col-lg-6" *ngIf="identity && identity.role == 'ROLE_ADMIN'">
+    <h1>{{Title}}</h1>
+    <div *ngIf="alertMessage" class="alert alert-info" role="alert">
+        {{alertMessage}}
+    </div>
+
+    <form #formSong="ngForm" (ngSubmit)="onSubmit()">
+        <p>
+            <label>No.:</label>
+            <input type="number" #number="ngModel" name="number" [(ngModel)]="song.number" required class="form-control">
+            <span *ngIf="!number.valid && number.touched" class="text-danger">
+                El Número es Obligatorio
+            </span>
+        </p>
+        <p>
+            <label>Título:</label>
+            <input type="text" #nombre="ngModel" name="nombre" [(ngModel)]="song.nombre" required class="form-control">
+            <span *ngIf="!nombre.valid && nombre.touched" class="text-danger">
+                El Título es Obligatorio
+            </span>
+        </p>
+        <p>
+            <label>Duración:</label>
+            <input type="number" #duration="ngModel" name="duration" [(ngModel)]="song.duration" required class="form-control">
+            <span *ngIf="!duration.valid && duration.touched" class="text-danger">
+                    La Duración de la canción es Obligatoria
+                </span>
+        </p>
+        <div *ngIf="isEdit">
+            <div *ngIf="song.file && song.file!='null' " class="song_file_for_edit">
+                <audio controls>
+                    <source src="{{url+ '/get-file-song/' +song.file}}" type="audio/mpeg" alt="Archivo de la Canción"/>
+                        El Navegador no soporta la reproducción de audio
+                </audio>
+            </div>
+            <p>
+                <label>Sube el audio de la canción:</label>
+                <input type="file" placeholder="Subir Canción.." (change)="fileChangeEvent($event)">
+            </p>
+        </div>
+        <input type="submit" value="{{Title}}" class="btn btn-success" [disabled]="!formSong.form.valid">
+    </form>
+</div>
+
+<div class="col-lg-6" *ngIf="!identity || identity.role != 'ROLE_ADMIN'">
+    <h1>Error</h1>
+    <p>
+        No tienes acceso a esta parte de la aplicación
+    </p>

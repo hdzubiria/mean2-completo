@@ -28,7 +28,7 @@ function getSongs(req, res) {
             if (!songs) {
                 res.status(404).send({ message: 'ERROR: No hay canciones' });
             } else {
-                res.status(200).send({ songs });
+                res.status(200).send(songs);
             }
         }
     })
@@ -51,7 +51,7 @@ function getSong(req, res) {
             if (!song) {
                 res.status(404).send({ message: 'ERROR: La Canción no Existe' });
             } else {
-                res.status(200).send({ song });
+                res.status(200).send(song);
             }
         }
     })
@@ -74,7 +74,7 @@ function saveSong(req, res) {
             if (!newSong) {
                 res.status(404).send({ message: 'ERROR: La canción no ha sido Guardada' });
             } else {
-                res.status(200).send({ song: newSong });
+                res.status(200).send(song);
             }
         }
     })
@@ -91,7 +91,7 @@ function updateSong(req, res) {
             if (!updatedSong) {
                 res.status(404).send({ message: 'ERROR: La canción no ha sido Actualizada' });
             } else {
-                res.status(200).send({ song: updatedSong });
+                res.status(200).send(updatedSong);
             }
         }
     })
@@ -107,7 +107,7 @@ function deleteSong(req, res) {
             if (!deletedSong) {
                 res.status(404).send({ message: 'ERROR: La Canción NO ha sido Encontrada' });
             } else {
-                res.status(200).send({ song: deletedSong });
+                res.status(200).send(deletedSong);
             }
         }
     })
@@ -133,7 +133,7 @@ function uploadFileSong(req, res) {
                     if (!songUpdated) {
                         res.status(404).send({ message: 'ERROR: No se pudo actualizar la Canción' });
                     } else {
-                        res.status(200).send({ song: songUpdated });
+                        res.status(200).send(songUpdated);
                     }
                 }
             });
@@ -146,8 +146,8 @@ function uploadFileSong(req, res) {
 }
 
 function getSongFile(req, res) {
-    var imageFile = req.params.songFile;
-    var path_file = './uploads/songs/' + imageFile;
+    var songFile = req.params.songFile;
+    var path_file = './uploads/songs/' + songFile;
 
     fs.exists(path_file, (exists) => {
         if (exists) {
@@ -159,7 +159,6 @@ function getSongFile(req, res) {
     });
 
 }
-
 
 module.exports = {
     getSong,

@@ -3,78 +3,77 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { GLOBAL} from '../services/global';
 import { UserService} from '../services/user.service';
+import { Song } from '../models/song';
+import { SongService } from '../services/song.service';
 import { Album } from '../models/album';
-import { AlbumService } from '../services/album.service';
 import { UploadService } from '../services/upload.service';
-import { Artist } from '../models/artist';
 
 @Component({
-    selector: 'album-edit',
-    templateUrl: '../views/album-add.html',
-    providers: [UserService, AlbumService, UploadService]
+    selector: 'song-edit',
+    templateUrl: '../views/song-add.html',
+    providers: [UserService, SongService, UploadService]
 })
-
-export class AlbumEditComponent implements OnInit {
+export class SongEditComponent implements OnInit {
     public Title: string;
     public isEdit: boolean;
-    public album: Album;
+    public song: Song;
     public identity: any;
     public token: any;
     public url: string;
     public alertMessage: string;
     public filesToUpload: Array<File>;
 
-    
-
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private userService: UserService,
-        private albumService: AlbumService,
-        private uploadService: UploadService,
+        private songService: SongService,
+        private uploadService: UploadService
     ) {
-        this.Title = 'Editar Álbum';
+        this.Title = 'Editar Canción';
         this.isEdit = true;
         this.identity = userService.getIdentity();
         this.token = userService.getToken();
         this.url = GLOBAL.url;
-        this.album = new Album('', '', '', 2019, '', '');
+        this.song = new Song(0, 1, '', 0, '', '');
+
+     }
+
+     ngOnInit() {
+        console.log('song-edit.components.ts Cargado');
+        // Conseguir la canción
+        this.getSong();
     }
 
-    ngOnInit(): void {
-        console.log('album-add.components.ts Cargado');
-        // Conseguir el album
-        this.getAlbum();
-    }
 
     /**
      * onSubmit
      */
     public onSubmit() {
-        this.albumService.updateAlbum(this.token, this.album)
+        this.songService.updateSong(this.token, this.song)
         .subscribe(
-            albumtoUpdate => {
-                const albumUpdated: Album = albumtoUpdate;
-                if (!albumUpdated._id) {
-                    this.alertMessage = 'NO fue posible actualizar el Álbum';
+            songUpdate => {
+                const songUpdated: Song = songUpdate;
+                if (!songUpdated._id) {
+                    this.alertMessage = 'NO fue posible actualizar la canción';
                 } else {
                      // Cargar Imagen si se ha seleccionado
                     if (this.filesToUpload) {
                         this.uploadService.makeFileRequest(
-                                `${this.url}upload-image-album/${this.album._id}`,
+                                `${this.url}upload-file-song/${this.song._id}`,
                                 [],
                                 this.filesToUpload,
                                 this.token,
-                                'image'
+                                'file'
                         )
                         .then((result) => {
-                            this.album.image = (result as any).image;
-                            const imagePath = this.url + 'get-image-album/' + this.album.image;
+                            this.song.file = (result as any).file;
+                            const imagePath = this.url + 'get-file-song/' + this.song.file;
                         });
                     }
-                    this.router.navigate(['/artista', (this.album.artist as Artist)._id]);
-                    this.alertMessage = 'Álbum actualizado Exitosamente';
+                    this.router.navigate(['/album', (this.song.album as Album)._id]);
+                    this.alertMessage = 'Canción actualizada Exitosamente';
                 }
             },
             erroresponse => {
@@ -91,19 +90,20 @@ export class AlbumEditComponent implements OnInit {
         this.filesToUpload = fileInput.target.files as Array<File>;
     }
 
+
     /**
-     * getArtist
+     * getSong
      */
-    private getAlbum() {
+    private getSong() {
         this.route.params.forEach((param: Params) => {
             const id: string = param.id;
-            this.albumService.getAlbum(this.token, id)
+            this.songService.getSong(this.token, id)
             .subscribe(
-                album => {
-                    if (!album) {
+                song => {
+                    if (!song) {
                         this.router.navigate(['/']);
                     } else {
-                        this.album = album;
+                        this.song = song;
                     }
                 },
                 erroresponse => {
@@ -114,4 +114,3 @@ export class AlbumEditComponent implements OnInit {
         });
     }
 }
-

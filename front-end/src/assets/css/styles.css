@@ -96,8 +96,8 @@ body {
 
 #artist-head-card .image,
 #album-head-card .image {
-    width: 150;
-    height: 150;
+    width: 170;
+    height: 170;
     overflow: hidden;
     float: left;
     margin-right: 30px;
@@ -105,7 +105,7 @@ body {
 
 #artist-head-card .image img,
 #album-head-card .image img {
-    height: 150px;
+    height: 170px;
 }
 
 

@@ -8,6 +8,9 @@
 
         <div class="data">
             <h1>{{album.title}}</h1>
+            <p class="artista">
+                <strong>{{album.artist.name}}</strong>
+            </p>
             <p class="agno">
                 {{album.year}}
             </p>
@@ -23,5 +26,33 @@
 
     <div class="clearfix"></div>
 
-    <div class="gallery-songs" *ngIf="songs">
+    <div id="gallery-songs" *ngIf="songs">
+        <ul class='songs-list'>
+            <li *ngFor="let song of songs" class="col-lg-3 song-item">
+                <div class="song-title">
+                    <a class="btn btn-success">
+                        <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+
+                    </a>
+
+                    {{song.number + '. ' + song.nombre + ' - ' + song.duration }}
+                    <div class="buttons" *ngIf="identity.role=='ROLE_ADMIN'">
+                        <a [routerLink]="['/editar-cancion',song._id]" class="btn btn-sm btn-warning">Editar</a>
+                        <a (click)="onDeleteConfirm(song._id)" class="btn btn-sm btn-danger">Eliminar</a>
+                    </div>
+                    <div class="seguro" *ngIf="confirmado == album._id">
+                        <a (click)="onDeleteAlbum(song._id)" class="btn btn-sm btn-danger">Eliminar</a>
+                        <a (click)="onCancelDeleteAlbum()" class="btn btn-sm btn-primary">Cancelar</a>
+                    </div>
+                </div>
+
+                <!-- <div class="song-file">
+                    <audio controls>
+                            <source src="{{url+ '/get-file-song/' +song.file}}" type="audio/mpeg" alt="Archivo de la Canción"/>
+                                El Navegador no soporta la reproducción de audio
+                    </audio>
+                </div> -->
+            </li>
+        </ul>
+
     </div>

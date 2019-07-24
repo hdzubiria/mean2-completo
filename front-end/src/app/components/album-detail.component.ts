@@ -6,11 +6,13 @@ import { UserService} from '../services/user.service';
 import { UploadService } from '../services/upload.service';
 import { AlbumService } from '../services/album.service';
 import { Album } from '../models/album';
+import { SongService } from '../services/song.service';
+import { Song } from '../models/song';
 
 @Component({
     selector: 'album-detail',
     templateUrl: '../views/album-detail.html',
-    providers: [UserService, AlbumService]
+    providers: [UserService, AlbumService, SongService]
 
 })
 
@@ -20,12 +22,14 @@ export class AlbumDetailComponent implements OnInit {
     public token: any;
     public url: string;
     public alertMessage: string;
+    public songs: Song[];
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private userService: UserService,
-        private albumService: AlbumService
+        private albumService: AlbumService,
+        private songService: SongService
     ) {
         this.identity = userService.getIdentity();
         this.token = userService.getToken();
@@ -55,6 +59,22 @@ export class AlbumDetailComponent implements OnInit {
                     } else {
                         this.album = album;
                         // TODO: Cargar las Cancciones
+
+                        this.songService.getSongs(this.token, album._id)
+                        .subscribe(
+                            cancionesRecibidas => {
+                                if (!cancionesRecibidas) {
+                                    this.alertMessage = 'Este Álbum no tiene Cancciones';
+                                } else {
+                                    this.songs = cancionesRecibidas;
+                                }
+                            },
+                            erroresponse => {
+                                console.log(erroresponse.error.message);
+                                this.alertMessage = erroresponse.error.message;
+                            }
+                        );
+
                     }
                 },
                 erroresponse => {

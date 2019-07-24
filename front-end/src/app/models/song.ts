@@ -5,6 +5,6 @@ export class Song{
         public nombre: string,
         public duration: number,
         public file: string,
-        public album: string
+        public album: any
     ){}
 }
