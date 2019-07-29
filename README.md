@@ -2,9 +2,11 @@
 
 proyecto del Curso de UDEMY de MEAN
 
-Version Seccion 6 - Terminado
+Terminado seún el Curso de Udemy
 
-ejecutre este comando:
+ejecutre este comando para el front-end y para el REST-API:
+
 ```
 npm install
+
 ```
