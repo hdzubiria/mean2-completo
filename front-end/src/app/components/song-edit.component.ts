@@ -36,7 +36,7 @@ export class SongEditComponent implements OnInit {
         this.identity = userService.getIdentity();
         this.token = userService.getToken();
         this.url = GLOBAL.url;
-        this.song = new Song(0, 1, '', 0, '', '');
+        this.song = new Song('', 1, '', 0, '', '');
 
      }
 

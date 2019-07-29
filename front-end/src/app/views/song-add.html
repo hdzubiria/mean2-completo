@@ -29,7 +29,7 @@
         <div *ngIf="isEdit">
             <div *ngIf="song.file && song.file!='null' " class="song_file_for_edit">
                 <audio controls>
-                    <source src="{{url+ '/get-file-song/' +song.file}}" type="audio/mpeg" alt="Archivo de la Canción"/>
+                    <source src="{{url+ 'get-file-song/' +song.file}}" type="audio/mpeg" alt="Archivo de la Canción"/>
                         El Navegador no soporta la reproducción de audio
                 </audio>
             </div>

@@ -101,7 +101,7 @@ export class ArtistDetailComponent implements OnInit {
     }
 
     /**
-     * onDeleteArtist
+     * onDeleteAlbum
      */
     public onDeleteAlbum(id: string) {
         this.albumService.deleteAlbum(this.token, this.confirmado)

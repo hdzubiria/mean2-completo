@@ -30,7 +30,7 @@ export class SongAddComponent implements OnInit {
         this.identity = userService.getIdentity();
         this.token = userService.getToken();
         this.url = GLOBAL.url;
-        this.song = new Song(0, 1, '', 0, '', '');
+        this.song = new Song( '', 1, '', 0, '', '');
         this.route.params.forEach((params: Params) => {
             this.song.album = params.album;
         });
