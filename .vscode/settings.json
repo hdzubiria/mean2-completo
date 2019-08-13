@@ -1,0 +1,7 @@
+{
+    "appService.zipIgnorePattern": [
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/fd409262-553e-4d10-90ad-101aa34bc7b9/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/hdzmusify",
+    "appService.deploySubpath": "REST-API"
+}

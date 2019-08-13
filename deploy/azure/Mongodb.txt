@@ -1,0 +1,11 @@
+MongoDB
+
+- https://www.mongodb.com/cloud/atlas
+ - Usuario: hdzubiria@hotmail.com
+ - password: m{tipica}
+ - Clave: M1075
+ 
+ - musifyUser
+ - 57BNr89k294tfqJb
+ 
+ mongodb+srv://musifyUser:57BNr89k294tfqJb@musify-cluster-vcv8g.mongodb.net/test?retryWrites=true&w=majority
